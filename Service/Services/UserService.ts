@@ -1,6 +1,6 @@
 import { IUser, User } from "@model/Entity/Users";
 import { validate } from "class-validator";
-import { getValidateError } from "tools";
+import { createErrorMessage, createSuccessData, getValidateError } from "tools";
 
 class UserService {
   /**
@@ -18,15 +18,10 @@ class UserService {
     //注册用户信息插入数据库
     try {
       const result = await user.save();
-      return {
-        message: 'success',
-        userId: result.id
-      }
+      return createSuccessData({ userId: result.id });
     } catch (error) {
-      return {
-        message: 'failed',
-        error: error.message,
-      }
+      console.log(error);
+      return createErrorMessage(error);
     }
   }
 
