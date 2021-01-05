@@ -1,6 +1,7 @@
 import { IUser, User } from "@model/Entity/Users";
 import { validate } from "class-validator";
-import { createErrorMessage, createSuccessData, getValidateError } from "tools";
+import { sign } from "jsonwebtoken";
+import { createErrorMessage, createSuccessData, getValidateError, key } from "tools";
 
 class UserService {
   /**
@@ -28,8 +29,24 @@ class UserService {
   /**
    * 查询用户登陆信息
    */
-  async getUserAccount() {
-
+  async getUserAccount(userInfo: IUser) {
+    try {
+      const result = await User.findOne({
+        password: userInfo.password,
+        phone: userInfo.phone
+      });
+      if (result && result.id) {
+        //加入session并返回登录token;
+        delete result.password;
+        const token = sign({...result}, key);
+        return token
+      } else {
+        return createSuccessData({});
+      }
+    } catch (error) {
+      console.log(error);
+      return createErrorMessage(error);
+    }
   }
 }
 

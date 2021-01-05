@@ -4,9 +4,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import { userRouter } from '@route/UserRoute';
-import { User } from '@model/Entity/Users';
-import md5 from 'md5-node';
-import { userService } from '@serve/UserService';
+import { key } from 'tools';
 
 //创建app服务
 const app = express();
@@ -47,4 +45,9 @@ app.listen('8081', () => {
 //   const result = await userService.register(user);
 //   console.log(result)
 // }, 1000);
+
+
+// setInterval(()=>{
+//   console.log(key)
+// },800)
 

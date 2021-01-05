@@ -3,7 +3,7 @@ import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from "typeorm";
 
 export interface IUser {
   password: string,
-  username: string,
+  username?: string,
   phone: string
 }
 

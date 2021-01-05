@@ -1,9 +1,10 @@
 import { ValidationError } from "class-validator";
 
-enum ErrorCode {
+export enum ErrorCode {
   'SUCCESS' = 0,
   'ER_DUP_ENTRY' = 1062,
   'VALIDATE_ERROR' = 1063,
+  'LOGIN_FAILED' = -1
 }
 
 /**
@@ -25,7 +26,7 @@ export function getValidateError(errArr: ValidationError[]) {
  */
 export function createErrorMessage(error) {
   return {
-    code: ErrorCode[error.code],
+    code: ErrorCode[error.code] || 500,
     message: error.message,
   }
 }
@@ -40,3 +41,10 @@ export function createSuccessData(data: object) {
     data,
   }
 }
+
+function getRandom() {
+  return Math.random().toString(36).slice(-6);
+}
+
+
+export const key = getRandom();
