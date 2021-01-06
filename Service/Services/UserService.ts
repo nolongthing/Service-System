@@ -36,7 +36,7 @@ class UserService {
         phone: userInfo.phone
       });
       if (result && result.id) {
-        //加入session并返回登录token;
+        //返回登录token;
         delete result.password;
         const token = sign({...result}, key);
         return token

@@ -19,7 +19,8 @@ userRouter.post('/', async (req, res) => {
   if (typeof result === 'string') {
     res.cookie('token', result, {
       maxAge: 1000 * 60 * 60 * 24 * 30,
-      sameSite: 'lax'
+      sameSite: 'lax',
+      httpOnly: true
     });
     res.send(createSuccessData({ data: 'login success!' }))
   } else {
