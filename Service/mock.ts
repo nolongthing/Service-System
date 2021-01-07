@@ -1,7 +1,7 @@
 
 
 // 使用 Mock
-
+import './Models/index';
 import { ChatRecord } from "./Models/Entity/ChatRecord";
 import { Customer } from "./Models/Entity/Customer";
 import { User } from "./Models/Entity/Users";
@@ -44,7 +44,7 @@ async function createChatRecord() {
       'userId|1-10': 10,
       'customerId|1-10': 10,
       'from|0-1': 1,
-      'date': new Date(Random.now('minute')).getTime(),
+      'date': `${new Date(Random.now('minute')).getTime()}`,
       'isRead|0-1': 1,
     });
     const chatRecord = new ChatRecord(content, userId, customerId, from, date, isRead);
@@ -52,3 +52,7 @@ async function createChatRecord() {
   }
 }
 
+
+setTimeout(() => {
+  createChatRecord();
+}, 1000);

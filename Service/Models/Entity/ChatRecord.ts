@@ -40,7 +40,7 @@ export class ChatRecord extends BaseEntity {
   from: 0 | 1;
 
   @Column()
-  date: number;
+  date: string;
 
   @Column({
     default: 0
