@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'umi';
 import styles from './index.less';
+import io from 'socket.io-client';
 
 export default () => {
+  useEffect(() => {
+    const socket = io('http://localhost:8081');
+    socket.on('connect', () => {
+      console.log(socket.id);
+
+    })
+  }, [])
   return (
     <div>
       <h1 className={styles.title}>Page index</h1>

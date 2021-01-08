@@ -19,7 +19,14 @@ export default defineConfig({
   dynamicImport: {},
   routes: [
     { path: '/', component: '@/pages/index' },
-    { path: '/test', component: '@/components/asyncTest' },
+    { path: '/test', component: '@/pages/AyTest' },
   ],
+  proxy: {
+    '/api': {
+      'target': 'http://localhost:8081/',
+      'changeOrigin': true,
+      'pathRewrite': { '^/api': '' },
+    },
+  },
   // ssr: {},
 });

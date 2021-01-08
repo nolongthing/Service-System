@@ -22,14 +22,16 @@
   "dependencies": {
     "@ant-design/pro-layout": "^6.5.0",
     "@umijs/preset-react": "1.x",
+    "socket.io-client": "^3.0.5",
     "umi": "^3.3.3"
   },
   "devDependencies": {
-    "postcss-pxtorem": "^5.1.1",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "@types/socket.io-client": "^1.4.34",
     "@umijs/test": "^3.3.3",
     "lint-staged": "^10.0.7",
+    "postcss-pxtorem": "^5.1.1",
     "prettier": "^2.2.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",

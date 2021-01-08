@@ -6,7 +6,13 @@ import { Server as HttpServer } from 'http';
  * @param httpServer 
  */
 export function createIo(httpServer: HttpServer) {
-  const io = new Server(httpServer);
+  const io = new Server(httpServer, {
+    cookie: true,
+    cors: {
+      origin: 'http://localhost:8000',
+      methods: ["GET", "POST"]
+    }
+  });
 
   io.on('connection', (socket: Socket) => {
     console.log(socket.request.headers.cookie);
