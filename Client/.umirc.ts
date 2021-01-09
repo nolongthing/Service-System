@@ -22,11 +22,18 @@ export default defineConfig({
     { path: '/test', component: '@/pages/AyTest' },
   ],
   proxy: {
+    //http请求接口代理
     '/api': {
       'target': 'http://localhost:8081/',
       'changeOrigin': true,
       'pathRewrite': { '^/api': '' },
     },
+    //socket请求接口代理
+    '/socket.io': {
+      'target': 'http://localhost:8081', // target host
+      'ws': true,
+      'changeOrigin': true
+    }
   },
   // ssr: {},
 });

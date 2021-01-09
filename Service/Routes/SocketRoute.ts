@@ -8,10 +8,11 @@ import { Server as HttpServer } from 'http';
 export function createIo(httpServer: HttpServer) {
   const io = new Server(httpServer, {
     cookie: true,
-    cors: {
-      origin: 'http://localhost:8000',
-      methods: ["GET", "POST"]
-    }
+    /* 服务端设置Socket跨域规则 */
+    // cors: {
+    //   origin: 'http://localhost:8000',
+    //   methods: ["GET", "POST"]
+    // }
   });
 
   io.on('connection', (socket: Socket) => {

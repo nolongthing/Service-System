@@ -5,10 +5,9 @@ import io from 'socket.io-client';
 
 export default () => {
   useEffect(() => {
-    const socket = io('http://localhost:8081');
+    const socket = io();
     socket.on('connect', () => {
       console.log(socket.id);
-
     })
   }, [])
   return (
