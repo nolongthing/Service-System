@@ -17,7 +17,11 @@ export function createIo(httpServer: HttpServer) {
 
   io.on('connection', (socket: Socket) => {
     console.log(socket.request.headers.cookie);
-    socket.emit('message', 'socket连接已建立')
+    socket.emit('message', 'message come from Service')
+
+    socket.on('message',(data)=>{
+      console.log(data)
+    })
   })
 }
 

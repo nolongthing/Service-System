@@ -38,7 +38,7 @@ async function createCustomer() {
 
 //创造十条聊天记录
 async function createChatRecord() {
-  for (let index = 0; index < 10; index++) {
+  for (let index = 0; index < 100; index++) {
     const { content, userId, customerId, from, date, isRead } = mock({
       'content': Random.csentence(),
       'userId|1-10': 10,

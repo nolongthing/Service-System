@@ -8,7 +8,11 @@ export default () => {
     const socket = io();
     socket.on('connect', () => {
       console.log(socket.id);
+    });
+    socket.on('message', (data: string) => {
+      console.log(data);
     })
+    socket.emit('message','message come from client')
   }, [])
   return (
     <div>

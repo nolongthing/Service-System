@@ -14,8 +14,8 @@ export class ChatRecord extends BaseEntity {
   constructor(content, userId, customerId, from, date, isRead) {
     super();
     this.content = content;
-    this.userId = userId;
-    this.customerId = customerId;
+    this.user = userId;
+    this.customer = customerId;
     this.from = from;
     this.date = date;
     this.isRead = isRead;
@@ -27,11 +27,15 @@ export class ChatRecord extends BaseEntity {
   @Column("text")
   content: string;
 
-  @ManyToOne(type => User, user => user.id)
-  userId: number;
+  @ManyToOne(type => User, user => user.id, {
+    nullable: false
+  })
+  user: number;
 
-  @ManyToOne(type => Customer, customer => customer.id)
-  customerId: number;
+  @ManyToOne(type => Customer, customer => customer.id, {
+    nullable: false
+  })
+  customer: number;
 
   @Column({
     type: 'enum',
