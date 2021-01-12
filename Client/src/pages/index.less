@@ -5,20 +5,20 @@
 }
 
 .a {
-  border: 1px solid black;
+  border: 1px solid var(--borderColor);
   margin-bottom: 10px;
 }
 
 .b {
-  border: 0.5px solid black;
+  border: 0.5px solid var(--borderColor);
   margin-bottom: 10px;
 }
 
-.c::after{
+.c::after {
   content: '';
   display: inline-block;
   height: 100%;
   width: 100%;
-  border-bottom: 1Px solid black;
+  border-bottom: 1Px solid var(--borderColor);
   transform: scaleY(0.5);
 }
