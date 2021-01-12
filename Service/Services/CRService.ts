@@ -76,16 +76,17 @@ class CRService {
     const current = user ? 0 : 1;
     const chats = await ChatRecord
       .getRepository()
-      .createQueryBuilder()
-      .select('customerId')
+      .createQueryBuilder()                       
+      .select(['customerId','customer_name'])
       .addSelect(`COUNT( customerId )`, 'messageCount')
-      .innerJoinAndSelect('customer', 'c')
+      .innerJoin('customer', 'c','c.id = customerId')
       .where("isRead = 0")
       .andWhere(new Brackets(qb => {
         qb.where("userId = :user", { user })
           .orWhere("customerId = :customer", { customer })
       }))
       .groupBy('customerId')
+      .printSql()
       .getRawMany();
     return createSuccessData(chats);
   }
