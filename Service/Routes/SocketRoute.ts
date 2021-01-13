@@ -36,3 +36,9 @@ chatRouter.get('/', async (req, res) => {
   const result = await cRService.getUnreadCount(query as any);
   res.send(result);
 })
+
+chatRouter.post('/updateIsRead', async (req, res) => {
+  const query = req.query;
+  const result = await cRService.setMessageIsRead(query as any);
+  res.send(result);
+})

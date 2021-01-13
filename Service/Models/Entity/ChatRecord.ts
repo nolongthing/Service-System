@@ -16,7 +16,7 @@ export class ChatRecord extends BaseEntity {
     this.content = content;
     this.user = userId;
     this.customer = customerId;
-    this.from = from;
+    this.c_from = from;
     this.date = date;
     this.isRead = isRead;
   }
@@ -38,10 +38,9 @@ export class ChatRecord extends BaseEntity {
   customer: number;
 
   @Column({
-    type: 'enum',
-    enum: chatRecordFrom
+    default: 0
   })
-  from: 0 | 1;
+  c_from: 0 | 1;
 
   @Column()
   date: string;

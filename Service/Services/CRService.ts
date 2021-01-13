@@ -69,39 +69,51 @@ class CRService {
   }
 
   /**
-   * 根据用户id查询未读消息数
+   * 根据用户id查询未读消息数,传递userId或者customerId中的任意一项
    * @param 用户id
    */
   async getUnreadCount({ user, customer }) {
-    const current = user ? 0 : 1;
-    const chats = await ChatRecord
-      .getRepository()
-      .createQueryBuilder()                       
-      .select(['customerId','customer_name'])
-      .addSelect(`COUNT( customerId )`, 'messageCount')
-      .innerJoin('customer', 'c','c.id = customerId')
-      .where("isRead = 0")
-      .andWhere(new Brackets(qb => {
-        qb.where("userId = :user", { user })
-          .orWhere("customerId = :customer", { customer })
-      }))
-      .groupBy('customerId')
-      .printSql()
-      .getRawMany();
-    return createSuccessData(chats);
+    try {
+      const current = user ? 0 : 1;
+      const target = user ? 1 : 0;
+      const unReadList = await ChatRecord
+        .createQueryBuilder()
+        .select([`${ECurrent[target]}Id`, `${ECurrent[target]}_name`])
+        .addSelect(`COUNT( ${ECurrent[target]}Id )`, 'messageCount')
+        .innerJoin(`${ECurrent[target]}`, 'c', `c.id = ${ECurrent[target]}Id`)
+        .where(`isRead = 0 AND c_from = ${target}`)
+        .andWhere(new Brackets(qb => {
+          qb.where("userId = :user", { user })
+            .orWhere("customerId = :customer", { customer })
+        }))
+        .groupBy(`${ECurrent[target]}Id`)
+        .printSql()
+        .getRawMany();
+      return createSuccessData(unReadList);
+    } catch (error) {
+      return createErrorMessage(error)
+    }
   }
 
   /**
    * 设置相关全部消息已读
    * @param 相关消息信息
    */
-  async setMessageIsRead({ user, customer, to }) {
-    const chats = await ChatRecord.find({
-      user,
-      customer,
-      from: to ? 0 : 1
-    });
-
+  async setMessageIsRead({ user, customer, from }) {
+    try {
+      const { raw: { changedRows } } = await ChatRecord
+        .createQueryBuilder()
+        .update()
+        .set({ 'isRead': 1 })
+        .where(
+          "userId = :user AND customerId = :customer AND c_from = :from",
+          { user, customer, from: from == 0 ? 1 : 0 }
+        )
+        .execute();
+      return createSuccessData({ changedRows });
+    } catch (error) {
+      return createErrorMessage(error);
+    }
   }
 }
 

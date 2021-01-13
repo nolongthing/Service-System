@@ -12,7 +12,7 @@ export class User extends BaseEntity implements IUser {
   constructor(password: string, username: string, phone: string) {
     super();
     this.password = password;
-    this.username = username;
+    this.user_name = username;
     this.phone = phone;
   }
 
@@ -23,7 +23,7 @@ export class User extends BaseEntity implements IUser {
     message: "用户名长度错误，请修改至1-5个字符之间"
   })
   @Column()
-  username: string;
+  user_name: string;
 
   @Column({
     length: 11,
