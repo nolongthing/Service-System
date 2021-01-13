@@ -97,7 +97,8 @@ class CRService {
 
   /**
    * 设置相关全部消息已读
-   * @param 相关消息信息
+   * @param {object} { user: 客户id, customer: 客服id, from: 请求端 }
+   * 
    */
   async setMessageIsRead({ user, customer, from }) {
     try {
