@@ -1,6 +1,8 @@
 import { defineConfig } from 'umi';
+import routes from './config/Routes';
 
 export default defineConfig({
+  routes: routes,
   nodeModulesTransform: {
     type: 'none',
   },
@@ -17,10 +19,6 @@ export default defineConfig({
     })
   ],
   dynamicImport: {},
-  routes: [
-    { path: '/', component: '@/pages/index' },
-    { path: '/test', component: '@/pages/AyTest' },
-  ],
   proxy: {
     //http请求接口代理
     '/api': {
