@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link, LoginModelState, useDispatch, useSelector } from 'umi';
+import { Link, useDispatch, useSelector, useStore } from 'umi';
 import styles from './index.less';
 import io from 'socket.io-client';
 
@@ -15,22 +15,19 @@ export default function Index() {
   //   })
   //   socket.emit('message','message come from client')
   // }, [])
-  const loginState = useSelector<{ login: LoginModelState }, LoginModelState>(state => state.login);
+  const loginUser = useSelector(state => (state as any).loginUser);
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log(loginState);
-    dispatch({ type: 'logout' });
-    console.log(loginState);
+    dispatch({ type: 'loginUser/logout' });
   }, [])
 
   return (
     <div>
       <h1 className={styles.title}>Page index</h1>
       <Link to="/test" >abc </Link>
-
       <div className={styles.a}>a</div>
       <div className={styles.b}>b</div>
-      <div className={styles.c}>c中国</div>
+      <div className={styles.c}>{loginUser.status ? '已登录' : '未登录'}</div>
     </div>
   );
 }

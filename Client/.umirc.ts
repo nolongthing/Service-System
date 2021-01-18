@@ -20,8 +20,7 @@ export default defineConfig({
   ],
   dynamicImport: {},
   dva: {
-    immer: true,
-    skipModelValidate: true,
+    hmr: true
   },
   proxy: {
     //http请求接口代理

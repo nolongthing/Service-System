@@ -1,7 +1,7 @@
 import React from 'react'
 
 interface IProps {
-  children: []
+  children: any[]
 }
 
 export default function Layout({ children }: IProps) {

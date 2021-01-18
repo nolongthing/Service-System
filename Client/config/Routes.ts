@@ -1,5 +1,5 @@
 export default [
-  { path: '/test', component: '@/pages/AyTest' },
+  { path: '/login', component: '@/pages/AyLogin' },
   {
     path: '/',
     component: '@/components/Layout',
