@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { Link } from 'umi';
+import { Link, LoginModelState, useDispatch, useSelector } from 'umi';
 import styles from './index.less';
 import io from 'socket.io-client';
 
-export default () => {
+
+export default function Index() {
   // useEffect(() => {
   //   const socket = io();
   //   socket.on('connect', () => {
@@ -14,7 +15,14 @@ export default () => {
   //   })
   //   socket.emit('message','message come from client')
   // }, [])
-  
+  const loginState = useSelector<{ login: LoginModelState }, LoginModelState>(state => state.login);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    console.log(loginState);
+    dispatch({ type: 'logout' });
+    console.log(loginState);
+  }, [])
+
   return (
     <div>
       <h1 className={styles.title}>Page index</h1>

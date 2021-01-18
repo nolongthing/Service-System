@@ -1,10 +1,11 @@
 export default [
+  { path: '/test', component: '@/pages/AyTest' },
   {
     path: '/',
     component: '@/components/Layout',
     routes: [
-      { path: '/', component: '@/pages/index.tsx' }
+      { path: '/', component: '@/pages/index' },
+      { path: '/chat', component: '@/components/Chat' }
     ]
   },
-  { path: '/test', component: '@/pages/AyTest' },
 ]
