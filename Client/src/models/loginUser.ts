@@ -19,11 +19,12 @@ export interface LoginModelType {
   reducers: {
     // save: Reducer<IndexModelState>;
     // 启用 immer 之后
-    login: ImmerReducer<LoginModelState>;
+    login: ImmerReducer<LoginModelState, { type: string, payload: IUserMessage }>;
     logout: ImmerReducer<LoginModelState>;
   };
   subscriptions?: { setup: Subscription };
 }
+
 const LoginModel: LoginModelType = {
   namespace: 'loginUser',
   state: {
@@ -31,10 +32,11 @@ const LoginModel: LoginModelType = {
     userMessage: null
   },
   reducers: {
-    login(state) {
+    login(state, { payload }) {
       return {
         ...state,
         status: true,
+        userMessage: payload
       }
     },
     logout(state) {

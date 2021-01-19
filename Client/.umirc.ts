@@ -22,6 +22,7 @@ export default defineConfig({
   dva: {
     hmr: true
   },
+  antd: {},
   proxy: {
     //http请求接口代理
     '/api': {
