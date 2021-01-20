@@ -31,6 +31,9 @@ class UserService {
    */
   async getUserAccount(userInfo: IUser) {
     try {
+      if (!userInfo.password || !userInfo.phone) {
+        return createSuccessData({});
+      }
       const result = await User.findOne({
         password: userInfo.password,
         phone: userInfo.phone
@@ -38,7 +41,7 @@ class UserService {
       if (result && result.id) {
         //返回登录token;
         delete result.password;
-        const token = sign({...result}, key);
+        const token = sign({ ...result }, key);
         return token
       } else {
         return createSuccessData({});

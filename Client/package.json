@@ -22,10 +22,13 @@
   "dependencies": {
     "@ant-design/pro-layout": "^6.5.0",
     "@umijs/preset-react": "1.x",
+    "md5": "^2.3.0",
+    "rc-form": "^2.4.12",
     "socket.io-client": "^3.0.5",
     "umi": "^3.3.3"
   },
   "devDependencies": {
+    "@types/md5": "^2.2.1",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "@types/socket.io-client": "^1.4.34",
