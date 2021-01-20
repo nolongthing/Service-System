@@ -1,7 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { SegmentedControl, List, InputItem, Button, Toast } from 'antd-mobile';
+import md5 from 'md5';
 import style from './login.less'
-import { postLogin } from '@/api';
+import { postLogin, postRegistered } from '@/api';
 
 const tabText = {
   'login': '登录',
@@ -12,7 +13,7 @@ const infoTemp = {
   phone: '',
   password: '',
   confirmPassword: '',
-  userName: ''
+  username: ''
 };
 
 export default function Login({ history }: any) {
@@ -32,8 +33,8 @@ export default function Login({ history }: any) {
       return;
     }
     const { data = {} } = await postLogin({
-      phone,
-      password
+      phone: phone.replace(/\s/g, ''),
+      password: md5(password)
     });
     if (data?.data === 'login success!') {
       history.replace('/');
@@ -44,8 +45,8 @@ export default function Login({ history }: any) {
 
   async function handleRegistered(e: any) {
     e.preventDefault();
-    const { phone, password, confirmPassword, userName } = loginInfo.current;
-    if (!phone || !password || !confirmPassword || !userName) {
+    const { phone, password, confirmPassword, username } = loginInfo.current;
+    if (!phone || !password || !confirmPassword || !username) {
       Toast.fail('存在必填项为空', 1);
       return;
     }
@@ -53,7 +54,17 @@ export default function Login({ history }: any) {
       Toast.fail('两次输入密码不一致', 1);
       return;
     }
-    
+    const { code, data = {} } = await postRegistered({ phone: phone.replace(/\s/g, ''), password: md5(password), username })
+    if (data.userId) {
+      Toast.success('注册成功', 1.5);
+      setCurTab('login');
+      return;
+    }
+    if (code === 1062) {
+      Toast.fail('手机号已存在', 1);
+      return;
+    }
+    Toast.fail(`[${code}] 注册失败，请稍后重试`, 1);
   }
 
   return (
@@ -71,7 +82,7 @@ export default function Login({ history }: any) {
             type="text"
             maxLength={5}
             placeholder="请输入姓名"
-            onChange={(val) => { loginInfo.current.userName = val; }}
+            onChange={(val) => { loginInfo.current.username = val; }}
           >姓名</InputItem>
         }
         <InputItem

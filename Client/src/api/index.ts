@@ -19,7 +19,7 @@ export function postLogin(params: { password: string, phone: string }) {
   });
 }
 
-export function postRegistered(params: { password: string, phone: string, userName: string }) {
+export function postRegistered(params: { password: string, phone: string, username: string }) {
   return request('/api/user', {
     method: 'put',
     body: JSON.stringify(params),

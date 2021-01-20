@@ -4,7 +4,9 @@ export default [
     path: '/',
     component: '@/components/Layout',
     routes: [
-      { path: '/', component: '@/pages/index' },
+      { path: '/index', component: '@/pages/index' },
+      { path: '/customer', component: '@/components/Customer' },
+      { path: '/my', component: '@/components/My' },
       { path: '/chat', component: '@/components/Chat' }
     ]
   },
