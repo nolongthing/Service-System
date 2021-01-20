@@ -21,7 +21,6 @@ class UserService {
       const result = await user.save();
       return createSuccessData({ userId: result.id });
     } catch (error) {
-      console.log(error);
       return createErrorMessage(error);
     }
   }
@@ -47,7 +46,6 @@ class UserService {
         return createSuccessData({});
       }
     } catch (error) {
-      console.log(error);
       return createErrorMessage(error);
     }
   }
