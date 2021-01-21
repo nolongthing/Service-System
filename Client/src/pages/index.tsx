@@ -6,9 +6,7 @@ import styles from './index.less';
 
 export default function Index() {
   const loginUser = useSelector(state => (state as any).loginUser);
-  const dispatch = useDispatch();
   useEffect(() => {
-    dispatch({ type: 'loginUser/logout' });
   }, [])
 
   return (

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { SegmentedControl, List, InputItem, Button, Toast } from 'antd-mobile';
+import { SegmentedControl, List, InputItem, Button, Toast, Switch } from 'antd-mobile';
 import md5 from 'md5';
 import style from './login.less'
 import { postLogin, postRegistered } from '@/api';
@@ -10,6 +10,7 @@ const tabText = {
 }
 
 const infoTemp = {
+  checked: true,
   phone: '',
   password: '',
   confirmPassword: '',
@@ -18,9 +19,11 @@ const infoTemp = {
 
 export default function Login({ history }: any) {
   const [curTab, setCurTab] = useState<'login' | 'registered'>('login');
+  const [isUser, setIsUser] = useState(true);
   const loginInfo = useRef(infoTemp);
 
   function handleNav(val: any) {
+    setIsUser(true);
     loginInfo.current = infoTemp;
     setCurTab(val);
   }
@@ -71,11 +74,23 @@ export default function Login({ history }: any) {
     <div className={`${style.container}`}>
       <SegmentedControl values={['login', 'registered']} onValueChange={handleNav} className={`${style.nav}`} />
       <List renderHeader={() => `${tabText[curTab]}信息`} key={curTab}>
+        {
+          curTab === 'login' &&
+          <List.Item
+            extra={<Switch
+              checked={isUser}
+              platform="android"
+              onChange={(checked) => {
+                setIsUser(checked);
+              }}
+            />}
+          >客户账号</List.Item>
+        }
         <InputItem
           type="phone"
-          placeholder="请输入手机号码"
+          placeholder={`请输入${isUser ? '手机号码' : '账号'}`}
           onChange={(val) => { loginInfo.current.phone = val; }}
-        >手机号码</InputItem>
+        >{isUser ? '手机号码' : '账号'}</InputItem>
         {
           curTab === 'registered' &&
           <InputItem

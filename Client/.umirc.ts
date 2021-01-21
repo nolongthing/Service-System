@@ -18,7 +18,9 @@ export default defineConfig({
       exclude: /node_modules/i
     })
   ],
-  dynamicImport: {},
+  dynamicImport: {
+    loading: '@/components/Loading'
+  },
   dva: {
     hmr: true
   },

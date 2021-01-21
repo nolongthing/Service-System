@@ -28,7 +28,7 @@ export interface LoginModelType {
 const LoginModel: LoginModelType = {
   namespace: 'loginUser',
   state: {
-    status: true,
+    status: false,
     userMessage: null
   },
   reducers: {
