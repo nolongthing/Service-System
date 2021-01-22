@@ -32,6 +32,7 @@ export default function Layout({ children, history }: IProps) {
         userName: data.user_name || data.customer_name,
         userAccount: data.account || data.phone,
         userId: data.id,
+        customerId: data.id,
         userType: data.phone ? 0 : 1
       }
     });

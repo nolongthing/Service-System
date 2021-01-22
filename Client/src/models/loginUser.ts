@@ -4,6 +4,7 @@ export interface IUserMessage {
   userName: string,
   userAccount: string,
   userId: number,
+  customerId: number
   userType: 0 | 1  //0表示客户，1表示客服
 }
 export interface LoginModelState {

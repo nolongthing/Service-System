@@ -2,6 +2,9 @@ import { Server, Socket } from "socket.io";
 import { Server as HttpServer } from 'http';
 import express from "express";
 import { cRService } from "@serve/CRService";
+import { verify } from "jsonwebtoken";
+import { key } from "tools";
+import { JSONCookie } from 'cookie-parser';
 
 /**
  * 创建io服务
@@ -18,8 +21,14 @@ export function createIo(httpServer: HttpServer) {
   });
 
   io.on('connection', (socket: Socket) => {
-    console.log(socket.request.headers.cookie);
-    socket.emit('message', 'message come from Service')
+    // console.log(socket.request.headers.cookie);
+    // socket.emit('message', 'message come from Service')
+    let user;
+    try {
+      user = verify((JSONCookie(socket.request.headers.cookie as string) as any).token, key);
+    } catch (error) {
+
+    }
 
     socket.on('message', (data) => {
       console.log(data)

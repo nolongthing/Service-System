@@ -14,7 +14,8 @@ const infoTemp = {
   phone: '',
   password: '',
   confirmPassword: '',
-  username: ''
+  username: '',
+  account: ''
 };
 
 export default function Login({ history }: any) {
@@ -30,20 +31,20 @@ export default function Login({ history }: any) {
 
   async function handleLogin(e: any) {
     e.preventDefault();
-    const { phone, password } = loginInfo.current;
-    if (!phone || !password) {
-      Toast.fail('手机号或密码不可以为空', 1);
+    const { phone, password, account } = loginInfo.current;
+    if ((!phone && !account) || !password) {
+      Toast.fail('登录信息不可以为空', 1);
       return;
     }
     const { data = {} } = await postLogin({
-      phone: phone.replace(/\s/g, ''),
+      [isUser ? 'phone' : 'account']: (isUser ? phone : account).replace(/\s/g, ''),
       password: md5(password)
     });
     if (data?.data === 'login success!') {
       history.replace('/');
       return;
     }
-    Toast.fail('登录失败，请检查手机号或密码是否正确', 1);
+    Toast.fail('登录失败，请检查登录信息是否正确', 1);
   }
 
   async function handleRegistered(e: any) {
@@ -87,9 +88,10 @@ export default function Login({ history }: any) {
           >客户账号</List.Item>
         }
         <InputItem
-          type="phone"
+          type={isUser ? "phone" : 'text'}
+          maxLength={11}
           placeholder={`请输入${isUser ? '手机号码' : '账号'}`}
-          onChange={(val) => { loginInfo.current.phone = val; }}
+          onChange={(val) => { loginInfo.current[isUser ? 'phone' : 'account'] = val; }}
         >{isUser ? '手机号码' : '账号'}</InputItem>
         {
           curTab === 'registered' &&

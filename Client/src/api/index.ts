@@ -12,8 +12,8 @@ export function whoAmI() {
   });
 }
 
-export function postLogin(params: { password: string, phone: string }) {
-  return request('/api/user', {
+export function postLogin(params: { password: string, phone?: string, account?: string }) {
+  return request(`/api/${params.phone ? 'user' : 'customer'}`, {
     method: 'post',
     body: JSON.stringify(params),
   });

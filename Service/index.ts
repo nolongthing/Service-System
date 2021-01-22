@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import { userRouter } from '@route/UserRoute';
 import { createServer } from 'http';
 import { chatRouter, createIo } from '@route/SocketRoute';
+import { customerRoute } from '@route/CustomerRoute';
 
 //创建express服务
 const app = express();
@@ -17,6 +18,8 @@ app.use(cookieParser())
 app.use(bodyParser.json())
 //使用用户相关路由
 app.use('/user', userRouter);
+//使用客服相关路由
+app.use('/customer', customerRoute);
 
 app.use('/chat', chatRouter);
 //创建http服务
