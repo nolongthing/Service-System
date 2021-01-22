@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { NavBar, Icon, TabBar } from 'antd-mobile';
 import styles from './layout.less';
-import { useDispatch } from 'umi';
+import { useDispatch, useSelector } from 'umi';
 import { whoAmI } from '@/api';
 import io from 'socket.io-client';
 import { iconList, IProps, navKey, navName } from './LayoutConf';
 
-
 export default function Layout({ children, history }: IProps) {
   const [titleKey, setTitleKey] = useState<keyof typeof navName>('index');
-  const [titleName, setTitleName] = useState('chat detail')
+  const header = useSelector(state => (state as any).appSet.header);
   const dispatch = useDispatch();
   useEffect(() => {
     if (history.location.pathname === '/') {
@@ -17,6 +16,10 @@ export default function Layout({ children, history }: IProps) {
     } else {
       setTitleKey(history.location.pathname.replace(/\//g, '') as any);
     }
+    dispatch({
+      type: 'appSet/setHeader',
+      payload: (navName as any)[history.location.pathname.replace(/\//g, '')] || ''
+    })
     initPage()
   }, [])
 
@@ -42,16 +45,32 @@ export default function Layout({ children, history }: IProps) {
   function createSocket() {
     const socket = io();
     socket.on('connect', () => {
-      console.log(socket.id);
+      // console.log(socket.id);
+      dispatch({
+        type: 'message/setSocket',
+        payload: socket
+      })
     });
-    socket.on('message', (data: string) => {
-      console.log(data);
-    })
-    socket.emit('message', 'message come from client')
+
+    // socket.on('message', (data: string) => {
+    //   console.log(data);
+    // })
+    // socket.emit('message', {
+    //   content: '',
+    //   c_from: '',
+    //   date: '',
+    //   isRead: '',
+    //   userId: '',
+    //   customerId: ''
+    // })
   }
 
   function handleTab(tabKey: keyof typeof navName) {
     setTitleKey(tabKey);
+    dispatch({
+      type: 'appSet/setHeader',
+      payload: navName[tabKey]
+    })
     history.replace(`/${tabKey}`);
   }
 
@@ -64,7 +83,7 @@ export default function Layout({ children, history }: IProps) {
         rightContent={[
           <Icon key="1" type="ellipsis" />,
         ]}
-      >{navName[titleKey] || titleName}</NavBar>
+      >{header}</NavBar>
 
       <TabBar
         unselectedTintColor="#949494"

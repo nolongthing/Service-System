@@ -18,7 +18,7 @@ export interface IFindChat {
   page?: number
 }
 
-enum ECurrent {
+export enum ECurrent {
   "user",
   "customer"
 }
@@ -79,15 +79,16 @@ class CRService {
       const unReadList = await ChatRecord
         .createQueryBuilder()
         .select([`${ECurrent[target]}Id`, `${ECurrent[target]}_name`])
-        .addSelect(`COUNT( ${ECurrent[target]}Id )`, 'messageCount')
+        .addSelect(`SUM(if(isRead=0 AND c_from = ${target},1,0))`, 'noReadCount')
         .innerJoin(`${ECurrent[target]}`, 'c', `c.id = ${ECurrent[target]}Id`)
-        .where(`isRead = 0 AND c_from = ${target}`)
-        .andWhere(new Brackets(qb => {
+        // .where(`c_from = ${target}`)
+        .where(new Brackets(qb => {
           qb.where("userId = :user", { user })
             .orWhere("customerId = :customer", { customer })
         }))
         .groupBy(`${ECurrent[target]}Id`)
-        .printSql()
+        .orderBy('date', 'DESC')
+        .orderBy('isRead', 'ASC')
         .getRawMany();
       return createSuccessData(unReadList);
     } catch (error) {

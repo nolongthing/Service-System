@@ -4,10 +4,11 @@ export default [
     path: '/',
     component: '@/components/Layout',
     routes: [
-      { path: '/index', component: '@/pages/index' },
+      { path: '/index', component: '@/components/Index' },
       { path: '/customer', component: '@/components/Customer' },
       { path: '/my', component: '@/components/My' },
-      { path: '/chat', component: '@/components/Chat' }
+      { path: '/chat', component: '@/components/Chat' },
+      { component: '@/components/404' }
     ]
   },
 ]

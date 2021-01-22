@@ -42,6 +42,16 @@ export function createSuccessData(data: object) {
   }
 }
 
+
+export function parseCookie<T extends object>(cookieStr: string): T {
+  const cookies = {};
+  cookieStr.split(';').forEach(item => {
+    const temp = item.split('=');
+    cookies[temp[0].trim()] = temp[1].trim();
+  })
+  return cookies as T;
+}
+
 function getRandom() {
   return Math.random().toString(36).slice(-6);
 }
