@@ -32,12 +32,12 @@ export default function Index({ history }: { history: History }) {
     <div>
       <List className="my-list">
         {
-          messageList && messageList.map((item) => {
+          messageList && messageList.map((item, index) => {
             return (
               <Item
                 className={styles.item}
                 extra={item.noReadCount == 0 ? '' : <Badge text={item.noReadCount} overflowCount={100} />}
-                key={item.customerId || item.userId}
+                key={`${item.userId || item.customerId}${index}`}
                 onClick={() => { handleToChat(item) }}
               >
                 {item.customer_name || item.user_name}
