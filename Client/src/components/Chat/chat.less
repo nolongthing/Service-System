@@ -1,0 +1,50 @@
+.container {
+  padding-top: 10px;
+  overflow: scroll;
+}
+
+.message-content {
+  display: flex;
+  overflow: hidden;
+  margin-bottom: 10px;
+  align-items: baseline;
+  width: calc(100% - 60px);
+}
+
+.me {
+  justify-content: flex-end;
+  margin-right: 10px;
+  float: right;
+}
+
+.no-me {
+  margin-left: 10px;
+}
+
+.content {
+  display: inline-block;
+  padding: 5px;
+  background-color: #fff;
+  border-radius: 5px;
+  &.M{
+    margin-right: 5px;
+    color: #fff;
+    background-color: #108ee9;
+  }
+  &.T{
+    margin-left: 5px;
+    color: #333;
+  }
+}
+
+.header {
+  flex-shrink: 0;
+  display: inline-block;
+  color: red;
+  height: 50px;
+  width: 50px;
+  line-height: 50px;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 50%;
+}

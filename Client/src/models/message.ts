@@ -21,8 +21,17 @@ const messageModel: MessageModelType = {
     newMessageList: null,
   },
   reducers: {
-    updateMessageList(state, action) {
+    updateMessageList(state, { payload }) {
+      let newMessageList;
+      if (payload.messageList) {
+        newMessageList = payload.messageList;
+      } else if (payload.updateList) {
 
+      }
+      return {
+        ...state,
+        newMessageList
+      }
     },
     setSocket(state, { payload }) {
       return {

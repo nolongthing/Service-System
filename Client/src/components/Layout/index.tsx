@@ -16,10 +16,6 @@ export default function Layout({ children, history }: IProps) {
     } else {
       setTitleKey(history.location.pathname.replace(/\//g, '') as any);
     }
-    dispatch({
-      type: 'appSet/setHeader',
-      payload: (navName as any)[history.location.pathname.replace(/\//g, '')] || ''
-    })
     initPage()
   }, [])
 
@@ -52,6 +48,15 @@ export default function Layout({ children, history }: IProps) {
       })
     });
 
+    socket.on('mList', (mList: any) => {
+      dispatch({
+        type: 'message/updateMessageList',
+        payload: {
+          messageList: mList.data,
+        }
+      })
+    })
+
     // socket.on('message', (data: string) => {
     //   console.log(data);
     // })
@@ -67,10 +72,6 @@ export default function Layout({ children, history }: IProps) {
 
   function handleTab(tabKey: keyof typeof navName) {
     setTitleKey(tabKey);
-    dispatch({
-      type: 'appSet/setHeader',
-      payload: navName[tabKey]
-    })
     history.replace(`/${tabKey}`);
   }
 

@@ -54,11 +54,13 @@ class CRService {
   async getMessages({ user, customer, page = 1 }) {
     try {
       const chats = await ChatRecord
-        .getRepository()
-        .createQueryBuilder()
+        .createQueryBuilder('chat')
+        .select(['chat.id','chat.date','chat.content','chat.c_from','chat.isRead','u.user_name','c.customer_name','c.id','u.id'])
+        .innerJoin('chat.customer', 'c')
+        .innerJoin('chat.user', 'u')
         .where("userId = :user", { user })
         .andWhere("customerId = :customer", { customer })
-        .orderBy('date', 'ASC')
+        .orderBy('chat.date', "DESC")
         .skip((page - 1) * 10)
         .take(10)
         .getMany();

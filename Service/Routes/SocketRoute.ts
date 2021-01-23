@@ -37,9 +37,15 @@ export function createIo(httpServer: HttpServer) {
     } as any);
     //消息列表传递给客户端
     socket.emit('mList', mList);
+    //获取具体消息
+    socket.on('getChatList', async (data, fn) => {
+      const result = await cRService.getMessages(data);
+      fn(result);
+    })
     socket.on('message', (data) => {
       console.log(data)
-    })
+    });
+
   })
 }
 
@@ -47,9 +53,15 @@ export function createIo(httpServer: HttpServer) {
 export const chatRouter = express.Router();
 
 
+// chatRouter.get('/', async (req, res) => {
+//   const query = req.query;
+//   const result = await cRService.getUnreadCount(query as any);
+//   res.send(result);
+// })
+
 chatRouter.get('/', async (req, res) => {
   const query = req.query;
-  const result = await cRService.getUnreadCount(query as any);
+  const result = await cRService.getMessages(query as any);
   res.send(result);
 })
 
