@@ -50,24 +50,12 @@ export default function Layout({ children, history }: IProps) {
 
     socket.on('mList', (mList: any) => {
       dispatch({
-        type: 'message/updateMessageList',
+        type: 'message/initMessageList',
         payload: {
           messageList: mList.data,
         }
       })
     })
-
-    // socket.on('message', (data: string) => {
-    //   console.log(data);
-    // })
-    // socket.emit('message', {
-    //   content: '',
-    //   c_from: '',
-    //   date: '',
-    //   isRead: '',
-    //   userId: '',
-    //   customerId: ''
-    // })
   }
 
   function handleTab(tabKey: keyof typeof navName) {

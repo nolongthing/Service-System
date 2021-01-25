@@ -3,6 +3,7 @@ import { History, IUserMessage, useDispatch, useSelector } from 'umi';
 import { TextareaItem, Button } from 'antd-mobile';
 import { IMList } from '../Index';
 import styles from './chat.less';
+import { whoAmI } from '@/api';
 
 export interface IMessage {
   id?: number,
@@ -27,8 +28,8 @@ export default function Chat({ history }: { history: History }) {
   const [chatList, setChatList] = useState<IMessage[] | null>(null);
   //聊天双方信息
   const chatUser = useRef<IMList>((history.location.state as any)?.chatUser);
-  //当前登录人信息
-  const userInfo = useSelector<any, IUserMessage>(state => (state as any).loginUser.userMessage);
+  //当前登录状态及登录人信息
+  const { status, userMessage: userInfo } = useSelector<any, { status: boolean, userMessage: IUserMessage }>(state => (state as any).loginUser);
   //socket链接
   const socket = useSelector<any, SocketIOClient.Socket>(state => (state as any).message.socket);
   const dispatch = useDispatch();
@@ -40,18 +41,55 @@ export default function Chat({ history }: { history: History }) {
     if (userInfo?.userId) {
       setUserMessage();
     }
-  }, [socket, userInfo])
+    return () => {
+      socket?.off('message');
+    }
+  }, [socket, userInfo]);
+
+  useEffect(() => {
+    //设置相关未读消息为已读
+    if (chatList && chatList.findIndex(item => item.c_from != userInfo.userType && item.isRead == 0) !== -1) {
+      socket.emit('setIsRead', {
+        user: chatUser.current.userId,
+        customer: chatUser.current.customerId,
+        from: userInfo.userType
+      })
+      //更新全局状态
+      dispatch({
+        type: 'message/setMessageIsRead',
+        payload: {
+          userId: chatUser.current.userId,
+          customerId: chatUser.current.customerId,
+          from: userInfo.userType
+        }
+      });
+    }
+  }, [chatList])
 
   function getMessage() {
-    socket?.emit('getChatList', {
-      user: chatUser.current.userId,
-      customer: chatUser.current.customerId
-    }, (messageList: any) => {
-      setChatList(messageList.data?.reverse())
-    })
+    if (socket) {
+      //获取历史消息
+      socket.emit('getChatList', {
+        user: chatUser.current.userId,
+        customer: chatUser.current.customerId
+      }, (messageList: any) => {
+        setChatList(messageList.data?.reverse())
+      })
+      //接收新消息
+      socket.on('message', (data: IMessage) => {
+        updateMessageList(data);
+      })
+    }
+
   }
 
-  function initFun() {
+  async function initFun() {
+    //查看登录权限
+    const { code } = await whoAmI();
+    if (code !== 0) {
+      history.replace('/index');
+      return;
+    }
     if (chatUser) {
       dispatch({
         type: 'appSet/setHeader',
@@ -86,16 +124,19 @@ export default function Chat({ history }: { history: History }) {
     }
     const sendMessage: IMessage = createMessage();
     console.log(sendMessage);
-    setChatList((value) => {
-      if (value) {
-        return [...value, sendMessage]
-      } else {
-        return [sendMessage]
-      }
-    })
+    updateMessageList(sendMessage);
     setMessage('');
     socket.emit('message', sendMessage);
-    
+  }
+
+  function updateMessageList(message: IMessage) {
+    setChatList((value) => {
+      if (value) {
+        return [...value, message]
+      } else {
+        return [message]
+      }
+    })
   }
 
   function createMessage(): IMessage {
