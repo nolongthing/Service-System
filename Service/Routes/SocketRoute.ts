@@ -42,8 +42,13 @@ export function createIo(httpServer: HttpServer) {
       const result = await cRService.getMessages(data);
       fn(result);
     })
+    //收到服务端新消息
     socket.on('message', (data) => {
       console.log(data)
+      //1.更新该消息到客户端
+
+      //2.更新消息列表到客户端
+      //3.消息储存到数据库
     });
 
   })
