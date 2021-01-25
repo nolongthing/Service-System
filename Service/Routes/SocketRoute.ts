@@ -44,10 +44,13 @@ export function createIo(httpServer: HttpServer) {
     })
     //收到服务端新消息
     socket.on('message', (data) => {
+      const to = data.c_from == 1 ? '0' : '1';
+      const toId = data.c_from == 1 ? data.user.id : data.customer.id;
       console.log(data)
       //1.更新该消息到客户端
-
+      socket.to(to + toId).emit('message', data);
       //2.更新消息列表到客户端
+      
       //3.消息储存到数据库
     });
 
