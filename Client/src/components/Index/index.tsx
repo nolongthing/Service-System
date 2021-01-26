@@ -48,7 +48,9 @@ export default function Index({ history }: { history: History }) {
 
   function handleToChat(chatUser: IMList) {
     history.push('/chat', {
-      chatUser
+      chatUser: {
+        ...chatUser
+      }
     })
   }
 

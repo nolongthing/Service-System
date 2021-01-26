@@ -27,3 +27,9 @@ customerRoute.post('/', async (req, res) => {
     res.send(result);
   }
 });
+
+/* 客服列表查询 */
+customerRoute.get('/', async (req, res) => {
+  const result = await customerService.getCustomerList();
+  res.send(result);
+})

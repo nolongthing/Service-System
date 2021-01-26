@@ -93,7 +93,7 @@ export default function Chat({ history }: { history: History }) {
     if (chatUser) {
       dispatch({
         type: 'appSet/setHeader',
-        payload: userInfo?.userType == 1 ? chatUser.current.user_name : chatUser.current.customer_name
+        payload: (userInfo?.userType == 1 ? chatUser.current.user_name : chatUser.current.customer_name)
       });
     } else {
       history.replace('/index')

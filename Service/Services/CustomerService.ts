@@ -49,6 +49,18 @@ class CustomerService {
       return createErrorMessage(error);
     }
   }
+
+  async getCustomerList() {
+    try {
+      const result = await Customer
+        .createQueryBuilder('customer')
+        .select(['customer.id', 'customer.customer_name'])
+        .getMany()
+      return createSuccessData(result);
+    } catch (error) {
+      return createErrorMessage(error);
+    }
+  }
 }
 
 export const customerService = new CustomerService();

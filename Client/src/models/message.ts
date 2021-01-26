@@ -64,7 +64,7 @@ const messageModel: MessageModelType = {
     },
     //设置未读消息已读
     setMessageIsRead(state, { payload }) {
-      const needSet = payload.from === 1 ? 'userId' : 'customerId';
+      const needSet = payload.from == 1 ? 'userId' : 'customerId';
       const newMessageList = state.newMessageList?.map(item => {
         if (item[needSet] === payload[needSet]) {
           return {

@@ -22,7 +22,8 @@ export default defineConfig({
     loading: '@/components/Loading'
   },
   dva: {
-    hmr: true
+    immer:true
+    // hmr: true
   },
   antd: {},
   proxy: {
