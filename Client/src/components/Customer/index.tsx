@@ -28,7 +28,7 @@ export default function Customer() {
 
   function handleToChat(item: ICustomer) {
     if (!userMessage) {
-      history.replace('/login');
+      history.push('/login');
       return;
     }
     if (userMessage.userType == 1) {

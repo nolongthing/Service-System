@@ -6,6 +6,8 @@ import { whoAmI } from '@/api';
 import io from 'socket.io-client';
 import { iconList, IProps, navKey, navName } from './LayoutConf';
 
+//当前存在的bug：TabBar相关的组件会被多次调用，需要手写tabBar导航·或者切换路由渲染为动态组件渲染
+//更青睐：手写tabBar导航
 export default function Layout({ children, history }: IProps) {
   const [titleKey, setTitleKey] = useState<keyof typeof navName>('index');
   const header = useSelector(state => (state as any).appSet.header);
