@@ -1,0 +1,42 @@
+{
+  "name": "ex-tsc",
+  "version": "0.0.1",
+  "description": "paths extends for tsc",
+  "main": "ex-tsc",
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "yarn clean && npx tsc",
+    "dev": "cd .. && cd lenneth && node ../ex-tsc/lib build ./ -t tsconfig.json -d -l 2",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "ex-tsc": "ex-tsc"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/commander": "^2.12.2",
+    "@types/fs-extra": "^5.0.2",
+    "@types/node": "^10.3.0",
+    "@types/shelljs": "^0.8.0",
+    "typescript": "^2.9.1"
+  },
+  "keywords": [
+    "typescript",
+    "node",
+    "paths",
+    "tsc",
+    "tsc extends"
+  ],
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "commander": "^2.15.1",
+    "fs-extra": "^6.0.1",
+    "reflect-metadata": "^0.1.12",
+    "shelljs": "^0.8.2",
+    "tslib": "^1.9.2"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  }
+}
